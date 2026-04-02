@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>许若若的手帐</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <header>📔 许若若的手帐分享</header>
+
+  <div class="upload">
+    <input type="file" id="imageInput"/>
+    <input type="text" id="titleInput" placeholder="标题"/>
+    <textarea id="descInput" placeholder="描述"></textarea>
+    <button onclick="addPost()">发布</button>
+  </div>
+
+  <div id="feed" class="feed"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
