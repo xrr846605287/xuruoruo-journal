@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>许若若的手帐Plus</title>
+<link rel="stylesheet" href="style_pro.css"/>
+</head>
+<body>
+<header>🌸 手帐社区（增强版）</header>
+<div style="padding:10px;">
+<input id="search" placeholder="搜索标题..." style="width:100%;padding:8px;border-radius:10px;border:1px solid #eee" oninput="searchPost()"/>
+</div>
+<div class="upload">
+<input type="file" id="imageInput"/>
+<input type="text" id="titleInput" placeholder="标题"/>
+<textarea id="descInput" placeholder="描述"></textarea>
+<button onclick="addPost()">发布</button>
+</div>
+<div id="feed" class="feed"></div>
+<script>
+let posts=JSON.parse(localStorage.getItem('posts')||'[]');
+function render(list=posts){
+const feed=document.getElementById('feed');feed.innerHTML='';
+list.forEach((post,i)=>{
+const div=document.createElement('div');div.className='card';
+div.innerHTML=`<img src="${post.image}"><div class="content"><h4>${post.title}</h4><p>${post.desc}</p>❤️ ${post.likes||0}<br/><button onclick="like(${i})">点赞</button></div>`;
+feed.appendChild(div);
+});}
+function addPost(){
+const file=document.getElementById('imageInput').files[0];
+const title=document.getElementById('titleInput').value;
+const desc=document.getElementById('descInput').value;
+const reader=new FileReader();
+reader.onload=e=>{
+posts.unshift({image:e.target.result,title,desc,likes:0});
+localStorage.setItem('posts',JSON.stringify(posts));render();};
+if(file)reader.readAsDataURL(file);
+}
+function like(i){posts[i].likes++;localStorage.setItem('posts',JSON.stringify(posts));render();}
+function searchPost(){
+const val=document.getElementById('search').value;
+const filtered=posts.filter(p=>p.title.includes(val));
+render(filtered);
+}
+render();
+</script>
+</body>
+</html>
